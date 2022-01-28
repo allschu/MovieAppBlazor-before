@@ -2,10 +2,11 @@
 {
     public class Cast
     {
-        public int Int { get; set; }
-        public string Name { get; set; }
-        public string Character { get; set; }
-        public int Order { get; set; }
-        public string Profile_Path { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string original_name { get; set; }
+        public string character { get; set; }
+        public int order { get; set; }
+        public string profile_path { get; set; }
     }
 }

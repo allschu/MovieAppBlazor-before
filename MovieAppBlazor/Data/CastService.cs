@@ -1,4 +1,5 @@
 ﻿using MovieAppBlazor.Data.Interfaces;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace MovieAppBlazor.Data
@@ -13,10 +14,10 @@ namespace MovieAppBlazor.Data
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
             _httpClient = httpClientFactory.CreateClient();
-            _httpClient.BaseAddress = new Uri(_configuration["MovieApiUrl"]);
+            _httpClient.BaseAddress = new Uri(_configuration["CastFunctionApiUrl"]);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-        public Task<CastResultSelection> GetCastAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<ICollection<Cast>> GetCastAsync(int id, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

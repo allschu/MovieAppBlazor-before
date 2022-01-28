@@ -2,7 +2,7 @@
 {
     public class CastResultSelection
     {
-        public int Id { get; set; }
-        public ICollection<Cast> Cast { get; set; }
+        public int id { get; set; }
+        public ICollection<Cast> cast { get; set; }
     }
 }

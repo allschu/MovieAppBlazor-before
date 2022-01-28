@@ -2,6 +2,6 @@
 {
     public interface ICastService
     {
-        Task<CastResultSelection> GetCastAsync(int id, CancellationToken cancellationToken = default);
+        Task<ICollection<Cast>> GetCastAsync(int id, CancellationToken cancellationToken = default);
     }
 }

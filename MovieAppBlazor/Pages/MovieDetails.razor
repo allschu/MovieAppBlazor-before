@@ -4,6 +4,7 @@
 <PageTitle>Movie service</PageTitle>
 
 @inject MovieService movieService
+@inject CastService castService
 
 @if (@MovieDetail == null)
 {
@@ -17,7 +18,14 @@ else
         <div class="row">
             <div class="col-sm-4"><img style="width: 400px; height: auto" src="https://image.tmdb.org/t/p/w500/@MovieDetail.Poster_path" /></div>
             <div class="col-sm-4">
+                <h4>Summary</h4>
                 @MovieDetail.Overview
+                <div class="col-sm-12">
+                    <br/>
+                    <h4>Cast</h4>
+                    <br/>
+                    <!-- PUT CODE FOR CAST -->
+                </div>
             </div>
         </div>
     </div>
@@ -32,9 +40,10 @@ else
     public int Id { get; set; }
 
     private MovieDetail MovieDetail { get; set; }
-
+    
     protected override async Task OnInitializedAsync()
     {
         MovieDetail = await movieService.GetMovieDetailAsync(Id);
+        
     }
 }
