@@ -43,7 +43,6 @@ else
     
     protected override async Task OnInitializedAsync()
     {
-        MovieDetail = await movieService.GetMovieDetailAsync(Id);
-        
+        MovieDetail = await movieService.GetMovieDetailAsync(Id);   
     }
 }
