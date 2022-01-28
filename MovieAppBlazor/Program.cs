@@ -7,7 +7,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<MovieService>();
-builder.Services.AddSingleton<CastService>();
 
 builder.Configuration.SetBasePath(builder.Environment.ContentRootPath);
 builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
