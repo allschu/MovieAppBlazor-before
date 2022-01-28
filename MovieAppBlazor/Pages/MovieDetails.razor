@@ -1,0 +1,40 @@
+﻿@page "/moviedetails/{Id:int}"
+@using MovieAppBlazor.Data
+
+<PageTitle>Movie service</PageTitle>
+
+@inject MovieService movieService
+
+@if (@MovieDetail == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container-fluid">
+        <h3>@MovieDetail.Title</h3>
+        <p><i>@MovieDetail.Tagline</i></p>
+        <div class="row">
+            <div class="col-sm-4"><img style="width: 400px; height: auto" src="https://image.tmdb.org/t/p/w500/@MovieDetail.Poster_path" /></div>
+            <div class="col-sm-4">
+                @MovieDetail.Overview
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@code {
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private MovieDetail MovieDetail { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MovieDetail = await movieService.GetMovieDetailAsync(Id);
+    }
+}

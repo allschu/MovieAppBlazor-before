@@ -1,0 +1,58 @@
+﻿@page "/movies"
+
+<PageTitle>Movie service</PageTitle>
+
+@using MovieAppBlazor.Data
+@inject MovieService movieService
+@inject NavigationManager NavManager
+
+<h1>Trending movies</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>release date</th>
+                <th>title</th>
+                <th>popularity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in movies.result)
+            {
+                <tr>
+                    <td>@movie.Id</td>
+                    <td>@movie.Release_Date</td>
+                    <td>@movie.Title</td>
+                    <td>@movie.Popularity</td>       
+                    <td @onclick="@(() => NavigateToDetail(@movie.Id))">Details</td>   
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private MovieResultSelection? movies;
+
+    private int selectedId = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await movieService.GetTrendingMovies();
+    }
+
+    private void NavigateToDetail(int selected)
+    {
+        NavManager.NavigateTo($"/moviedetails/{selected}");
+    }
+}
