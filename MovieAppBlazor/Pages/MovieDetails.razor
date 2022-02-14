@@ -4,6 +4,7 @@
 <PageTitle>Movie service</PageTitle>
 
 @inject MovieService movieService
+@inject CastService castService
 
 @if (@MovieDetail == null)
 {
@@ -12,19 +13,30 @@
 else
 {
     <div class="container-fluid">
-        <h3>@MovieDetail.Title</h3>
+        <h3>@MovieDetail.Title (@MovieDetail.Release_date.ToShortDateString())</h3>
         <p><i>@MovieDetail.Tagline</i></p>
         <div class="row">
             <div class="col-sm-4"><img style="width: 400px; height: auto" src="https://image.tmdb.org/t/p/w500/@MovieDetail.Poster_path" /></div>
-            <div class="col-sm-4">
+            <div class="col-sm-8">
                 <h4>Summary</h4>
                 @MovieDetail.Overview
-                <div class="col-sm-12">
-                    <br/>
-                    <h4>Cast</h4>
-                    <br/>
-                    <!-- PUT CODE FOR CAST -->
-                </div>
+                <br />
+                <br />
+                <h4>Cast</h4>
+                @foreach (var actor in Cast.OrderBy(x => x.order).Take(5))
+                {
+                    <div class="row cast">
+                        <div class="col-sm-2">
+                     
+                            <img style="width: 100px; height: auto" src="https://image.tmdb.org/t/p/w500/@actor.profile_path" />
+                        </div>
+                        <div class="col-sm-10">
+                            @actor.name
+                            <br />
+                            <i>@actor.character</i>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>
@@ -39,9 +51,11 @@ else
     public int Id { get; set; }
 
     private MovieDetail MovieDetail { get; set; }
-    
+    private ICollection<Cast> Cast { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
-        MovieDetail = await movieService.GetMovieDetailAsync(Id);   
+        MovieDetail = await movieService.GetMovieDetailAsync(Id);
+        Cast = await castService.GetCastAsync(Id);
     }
 }
