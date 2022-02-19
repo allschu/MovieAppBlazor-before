@@ -31,5 +31,21 @@ namespace MovieAppBlazor.Data
 
             return resultSelection.cast;
         }
+
+        public async Task<Person> GetPersonAsync(int id, CancellationToken cancellationToken = default)
+        {
+            var response = await _httpClient.GetAsync($"GetPersonFunction?id={id}", cancellationToken).ConfigureAwait(false);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                // _logger.LogError($"HTTP ERROR: {response.ReasonPhrase}");
+            }
+
+            var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var resultPerson = JsonConvert.DeserializeObject<Person>(content);
+
+            return resultPerson;
+
+        }
     }
 }

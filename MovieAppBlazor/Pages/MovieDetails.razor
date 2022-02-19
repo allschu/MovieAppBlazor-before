@@ -5,6 +5,7 @@
 
 @inject MovieService movieService
 @inject CastService castService
+@inject IJSRuntime JS
 
 @if (@MovieDetail == null)
 {
@@ -31,7 +32,7 @@ else
                             <img style="width: 100px; height: auto" src="https://image.tmdb.org/t/p/w500/@actor.profile_path" />
                         </div>
                         <div class="col-sm-10">
-                            @actor.name
+                            <a @onclick="@(() => OnActorClick(actor.id))">@actor.name</a> 
                             <br />
                             <i>@actor.character</i>
                         </div>
@@ -39,6 +40,21 @@ else
                 }
             </div>
         </div>
+    </div>
+
+    <div id="castMemberDialog" title="person detail">
+        @if (SelectedCastMember != null)
+        {
+             <div class="row">
+                <h4>@SelectedCastMember.name</h4>
+                <img style="width: 300px; height: auto" src="https://image.tmdb.org/t/p/w500/@SelectedCastMember.profile_path" />
+                <p>@SelectedCastMember.biography</p>
+             </div>
+        }
+        else
+        {
+            <p>loading...</p>
+        }
     </div>
 }
 
@@ -52,10 +68,18 @@ else
 
     private MovieDetail MovieDetail { get; set; }
     private ICollection<Cast> Cast { get; set; }
+    private Person SelectedCastMember{ get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         MovieDetail = await movieService.GetMovieDetailAsync(Id);
         Cast = await castService.GetCastAsync(Id);
+    }
+
+    private async Task OnActorClick(int actorId)
+    {
+        SelectedCastMember = await castService.GetPersonAsync(actorId);
+
+        await JS.InvokeVoidAsync("ShowCastDetail");
     }
 }
